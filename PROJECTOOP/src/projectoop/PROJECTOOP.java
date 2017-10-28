@@ -32,33 +32,33 @@ public class PROJECTOOP implements Serializable {
         // TODO code application logic here
       // new NewAccount();
 
-//      FileOutputStream Oop_DataAccount = new FileOutputStream("Oop_AccountData.dat", true);
-//      
-//        try {
-//            
-//            ObjectOutputStream Oop_WriteData = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("Oop_AccountData.dat")));
-//            
-//            Account Oop_Admin = new Account();
-//            Oop_Admin.setOop_Password("admin");
-//            Oop_Admin.setOop_Username("admin");
-//       
-///*             Account demo1 = new Account();
-//            demo1.setOop_Password("demo 1");
-//            demo1.setOop_Username("demo 1");
-//       
-//             Account demo2 = new Account();
-//            demo2.setOop_Password("demo 2");
-//            demo2.setOop_Username("demo 2");
-//       
-//            Oop_WriteData.writeObject(demo1);
-//            Oop_WriteData.writeObject(demo2); */
-//            Oop_WriteData.writeObject(Oop_Admin);
-//            
-//            Oop_WriteData.close();
-//            
-//        } catch (IOException e) {
-//            System.out.println("Error write file");
-//        }
+      FileOutputStream Oop_DataAccount = new FileOutputStream("Oop_AccountData.dat", true);
+      
+        try {
+            
+            ObjectOutputStream Oop_WriteData = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("Oop_AccountData.dat")));
+            
+            Account Oop_Admin = new Account();
+            Oop_Admin.setOop_Password("admin");
+            Oop_Admin.setOop_Username("admin");
+       
+/*             Account demo1 = new Account();
+            demo1.setOop_Password("demo 1");
+            demo1.setOop_Username("demo 1");
+       
+             Account demo2 = new Account();
+            demo2.setOop_Password("demo 2");
+            demo2.setOop_Username("demo 2");
+       
+            Oop_WriteData.writeObject(demo1);
+            Oop_WriteData.writeObject(demo2); */
+            Oop_WriteData.writeObject(Oop_Admin);
+            
+            Oop_WriteData.close();
+            
+        } catch (IOException e) {
+            System.out.println("Error write file");
+        }
  //     new AdminInterface();
             new LogIn();
         

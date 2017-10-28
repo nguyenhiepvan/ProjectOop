@@ -7,7 +7,9 @@ package projectoop;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -72,37 +74,71 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
         
     }
     
+    private JPanel cereateItemPanel(int align, JLabel label) {
+        // create JPanel
+        JPanel panel = new JPanel(createFlowLayout(align));
+        // set Component Orientation
+        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        // add JLabel
+        panel.add(label);
+        return panel;
+    }
+ 
+    // create FlowLayout with align
+    private FlowLayout createFlowLayout(int algin) {
+        FlowLayout layout = new FlowLayout();
+        layout.setAlignment(algin);
+        return layout;
+    }
+    
     public JPanel Oop_CreateInputPanel() throws IOException
     {
         int Oop_col = 15;
+        int size = 30;
         JPanel Oop_panel = new JPanel(new GridLayout(2, 2));
+        Oop_panel.setBorder(new EmptyBorder(0, 0, 0, 45));
+       // Oop_panel.setBorder(new EmptyBorder(1, 1, 1, 1));
         
         BufferedImage Oop_Image = ImageIO.read(new File("usericon.png"));
-        Oop_panel.add(Oop_Usernamelb = new JLabel(new ImageIcon(Oop_Image.getScaledInstance(35, 35, Image.SCALE_SMOOTH))));
-        Oop_panel.add(Oop_Usernametf = Oop_CreateTextField(Oop_col));
-        Oop_Usernametf.setUI(new JTextFieldHintUI("Username", Color.gray));
+        Oop_Usernamelb = new JLabel(new ImageIcon(Oop_Image.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
+        Oop_panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         
+        Oop_panel.add(cereateItemPanel(FlowLayout.CENTER, Oop_Usernamelb));
+        
+        Oop_panel.add(Oop_Usernametf = Oop_CreateTextField(Oop_col));
+        GhostText ghosttextun = new GhostText(Oop_Usernametf, "Username");
+   //     Oop_Usernametf.setPreferredSize(new Dimension(70, HEIGHT));
+ //       Oop_Usernametf.setUI(new JTextFieldHintUI("Username", Color.gray));
+//        
         BufferedImage Oop_Icon = ImageIO.read(new File("passwordicon.png"));     
-        Oop_panel.add(Oop_Passwordlb = new JLabel(new ImageIcon(Oop_Icon.getScaledInstance(35, 35, Image.SCALE_SMOOTH))));
+        Oop_Passwordlb = new JLabel(new ImageIcon(Oop_Icon.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
+        Oop_panel.add(cereateItemPanel(FlowLayout.CENTER, Oop_Passwordlb));
         Oop_panel.add(Oop_Passwordtf = Oop_CreatePasswordField(Oop_ActionLogIn,Oop_col));
-        Oop_Passwordtf.setUI(new JTextFieldHintUI("Password", Color.gray));
+        //char password[] = {'p','w','s','s','w','o','r','d'};
+  //      Oop_Passwordtf.setUI(new JTextFieldHintUI("Password", Color.gray));
+        GhostText ghostTextpd = new GhostText(Oop_Passwordtf, "please pess Password");
+ //       Oop_Passwordtf.setUI();
         
         return Oop_panel;
     }
     
-    public JPanel Oop_CreateButtonPanel()
+    public JPanel Oop_CreateButtonPanel() throws IOException
     {
         JPanel Oop_panel = new JPanel();
         
-        Oop_panel.add(Oop_Login = Oop_CreateButton("Log In"));
+        BufferedImage Oop_Image = ImageIO.read(new File("arrow.png"));
+        ImageIcon icon = new ImageIcon(Oop_Image.getScaledInstance(35, 25, Image.SCALE_SMOOTH));
+        Oop_panel.add(Oop_Login = Oop_CreateButton("Log In",icon));
         Oop_Login.addActionListener(this);
         Oop_Login.setActionCommand(Oop_ActionLogIn);
+        Oop_Login.setBackground(Color.green);
         
         Oop_panel.add(Oop_CreateLabel("or"));
         
-        Oop_panel.add(Oop_CreateNew = Oop_CreateButton("Create new Account"));
+        Oop_panel.add(Oop_CreateNew = new JButton("Create new Account"));
         Oop_CreateNew.addActionListener(this);
         Oop_CreateNew.setActionCommand("Create New Account");
+       
         
         return Oop_panel;
     }
@@ -129,9 +165,9 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
         return Oop_password;
     }
     
-    public JButton Oop_CreateButton(String title)
+    public JButton Oop_CreateButton(String title,ImageIcon icon)
     {
-        JButton Oop_Button = new JButton(title);
+        JButton Oop_Button = new JButton(title, icon);
         return Oop_Button;
     }
     

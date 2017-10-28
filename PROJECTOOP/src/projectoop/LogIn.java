@@ -50,11 +50,12 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
     String Oop_ActionLogIn = "Login";
     JLabel Oop_Usernamelb;
     JLabel Oop_Passwordlb;
+    JLabel Oop_Titlelb;
     
    
     public LogIn() throws FileNotFoundException, IOException
     {
-        add(CreateMainPanel());
+        add(Oop_CreateMainPanel());
         setTitle("Log In");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -63,10 +64,11 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
        
     }
     
-    public JPanel CreateMainPanel() throws IOException
+    public JPanel Oop_CreateMainPanel() throws IOException
     {
         JPanel Oop_panel = new JPanel(new BorderLayout());
         Oop_panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        Oop_panel.add(Oop_CreateTitle(), BorderLayout.NORTH);
         Oop_panel.add(Oop_CreateInputPanel(),BorderLayout.CENTER);
         Oop_panel.add(Oop_CreateButtonPanel(),BorderLayout.PAGE_END);
         
@@ -74,21 +76,16 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
         
     }
     
-    private JPanel cereateItemPanel(int align, JLabel label) {
-        // create JPanel
-        JPanel panel = new JPanel(createFlowLayout(align));
-        // set Component Orientation
-        panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        // add JLabel
-        panel.add(label);
-        return panel;
-    }
- 
-    // create FlowLayout with align
-    private FlowLayout createFlowLayout(int algin) {
-        FlowLayout layout = new FlowLayout();
-        layout.setAlignment(algin);
-        return layout;
+    public JPanel Oop_CreateTitle() throws IOException
+    {
+        JPanel Oop_Panel = new JPanel(new FlowLayout());
+        BufferedImage Oop_Image = ImageIO.read(new File("loginicon.png"));
+        Oop_Titlelb = new JLabel(new ImageIcon(Oop_Image.getScaledInstance(250, 70, Image.SCALE_SMOOTH)));
+        Oop_Panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        
+        Oop_Panel.add(Oop_cereateItemPanel(FlowLayout.CENTER, Oop_Titlelb));
+        
+        return Oop_Panel;
     }
     
     public JPanel Oop_CreateInputPanel() throws IOException
@@ -103,7 +100,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
         Oop_Usernamelb = new JLabel(new ImageIcon(Oop_Image.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
         Oop_panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         
-        Oop_panel.add(cereateItemPanel(FlowLayout.CENTER, Oop_Usernamelb));
+        Oop_panel.add(Oop_cereateItemPanel(FlowLayout.CENTER, Oop_Usernamelb));
         
         Oop_panel.add(Oop_Usernametf = Oop_CreateTextField(Oop_col));
         GhostText ghosttextun = new GhostText(Oop_Usernametf, "Username");
@@ -112,7 +109,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
 //        
         BufferedImage Oop_Icon = ImageIO.read(new File("passwordicon.png"));     
         Oop_Passwordlb = new JLabel(new ImageIcon(Oop_Icon.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
-        Oop_panel.add(cereateItemPanel(FlowLayout.CENTER, Oop_Passwordlb));
+        Oop_panel.add(Oop_cereateItemPanel(FlowLayout.CENTER, Oop_Passwordlb));
         Oop_panel.add(Oop_Passwordtf = Oop_CreatePasswordField(Oop_ActionLogIn,Oop_col));
         //char password[] = {'p','w','s','s','w','o','r','d'};
   //      Oop_Passwordtf.setUI(new JTextFieldHintUI("Password", Color.gray));
@@ -135,7 +132,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
         
         Oop_panel.add(Oop_CreateLabel("or"));
         
-        Oop_panel.add(Oop_CreateNew = new JButton("Create new Account"));
+        Oop_panel.add(Oop_CreateNew = new JButton("Register now"));
         Oop_CreateNew.addActionListener(this);
         Oop_CreateNew.setActionCommand("Create New Account");
        
@@ -169,6 +166,23 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
     {
         JButton Oop_Button = new JButton(title, icon);
         return Oop_Button;
+    }
+    
+    private JPanel Oop_cereateItemPanel(int Oop_align, JLabel Oop_label) {
+        // create JPanel
+        JPanel Oop_panel = new JPanel(Oop_createFlowLayout(Oop_align));
+        // set Component Orientation
+        Oop_panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        // add JLabel
+        Oop_panel.add(Oop_label);
+        return Oop_panel;
+    }
+ 
+    // create FlowLayout with align
+    private FlowLayout Oop_createFlowLayout(int Oop_algin) {
+        FlowLayout Oop_layout = new FlowLayout();
+        Oop_layout.setAlignment(Oop_algin);
+        return Oop_layout;
     }
     
    private static Vector Oop_Data()

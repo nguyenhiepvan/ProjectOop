@@ -53,7 +53,7 @@ public class NewAccount extends JFrame implements ActionListener, ItemListener, 
     public NewAccount()
     {
         add(Oop_CreateMainPanel());
-        setTitle("Create Account");
+        setTitle("Register now");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
@@ -115,7 +115,7 @@ public class NewAccount extends JFrame implements ActionListener, ItemListener, 
     public JPanel Oop_CreateButtonPanel()
     {
         JPanel Oop_Panel = new JPanel(new FlowLayout());
-        Oop_Panel.add(Oop_Ok = Oop_CreateButton("Ok"));
+        Oop_Panel.add(Oop_Ok = Oop_CreateButton("Register"));
         Oop_Ok.addActionListener(this);
         
         Oop_Panel.add(Oop_Cancel = Oop_CreateButton("Cancel"));

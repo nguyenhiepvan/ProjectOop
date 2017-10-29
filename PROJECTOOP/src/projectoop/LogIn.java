@@ -58,7 +58,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
     JLabel Oop_Passwordlb;
     JLabel Oop_Titlelb;
     JCheckBox Oop_RemembermeCx;
-    static Account Oop_RememberAccount = new Account() ;
+   // static Account Oop_RememberAccount = new Account() ;
     
    //giao diện chính
     public LogIn() throws FileNotFoundException, IOException
@@ -69,7 +69,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
         pack();
         setVisible(true);
         this.setBackground(Color.DARK_GRAY);
-        Oop_LoginRememberAccount();
+        //Oop_LoginRememberAccount();
         setLocationRelativeTo(null);// đưa giao diện ra giữa màn hình
        
     }
@@ -212,11 +212,6 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
            {
                Oop_List.add(Oop_temp);
                
-               if(Oop_temp.getOop_Email()=="Remember me")
-               {
-                   Oop_RememberAccount = Oop_temp;
-               }
-               
                Oop_temp = (Account) Oop_DataAccount.readObject();
                if(Oop_temp==null) break;
            }
@@ -229,45 +224,6 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
        
        return Oop_List;
    }
-   
-   public void Oop_LoginRememberAccount()
-   {
-       if(Oop_RememberAccount.getOop_Sex().equals("1"))
-       {
-           // đưa username và password của tk đã lưu lên giao diện đăng nhập
-           Oop_Usernametf.setText(Oop_RememberAccount.getOop_Username());
-           Oop_Passwordtf.setText(Oop_RememberAccount.getOop_Password());
-           
-           // Bỏ nhớ tài khoản đó
-           Account Oop_temp = new Account();
-            try {
-                FileInputStream Oop_Account = new FileInputStream("Oop_AccountData.dat");
-                ObjectInputStream Oop_Read = new ObjectInputStream(new BufferedInputStream(Oop_Account));
-                Oop_temp = (Account) Oop_Read.readObject();
-                while(true)
-                {
-                    if(Oop_temp.getOop_Username().equals("Remember me")) break;
-                    Oop_temp = (Account) Oop_Read.readObject();
-                    if(Oop_temp==null) break;
-                }
-
-                Oop_Read.close();
-            } catch (Exception ex) {
-            }
-
-           Oop_temp.setOop_Sex("0");
-
-            try {                                                    
-                FileOutputStream Oop_AccountData = new FileOutputStream("Oop_AccountData.dat");
-                ObjectOutputStream Oop_writeData = new ObjectOutputStream(new BufferedOutputStream(Oop_AccountData));
-                Oop_writeData.writeObject(Oop_temp);
-                Oop_writeData.close();
-            } catch (Exception ey) {
-            }
-       }
-       else return;
-   }
-
     
   private static boolean Oop_CheckData(String inptun, char[] inputpw)
    {
@@ -311,21 +267,21 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
         if(Oop_ActionLogIn.equals(Oop_command))
         {
             String Oop_UserName = Oop_Usernametf.getText();
-            char[] Oop_PassWord = Oop_Passwordtf.getPassword();
+            char[] Oop_PassWord = Oop_Passwordtf.getText().toCharArray();
             
                
-                if(Oop_CheckData(Oop_UserName,Oop_PassWord))
-               {
-                   
-                   JOptionPane.showMessageDialog(null, "LogIn success!", "Login", JOptionPane.INFORMATION_MESSAGE);
-                
-               }
-               
-               else
-               {
-                   JOptionPane.showMessageDialog(null, "LogIn Faild!", "Error", JOptionPane.ERROR_MESSAGE);
-                
-               }
+            if(Oop_CheckData(Oop_UserName,Oop_PassWord))
+           {
+
+               JOptionPane.showMessageDialog(null, "LogIn success!", "Login", JOptionPane.INFORMATION_MESSAGE);
+
+           }
+
+           else
+           {
+               JOptionPane.showMessageDialog(null, "LogIn Faild!", "Error", JOptionPane.ERROR_MESSAGE);
+
+           }
         }
         else
             if(Oop_command == "Create New Account")

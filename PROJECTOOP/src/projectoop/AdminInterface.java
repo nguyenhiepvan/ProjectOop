@@ -71,9 +71,8 @@ public class AdminInterface extends JFrame implements ActionListener, MouseListe
         JPanel Oop_Panel = new JPanel(new FlowLayout());
         
         Oop_Panel.add(Oop_Searchtf = new JTextField(22));
-        Oop_Searchtf.setUI(new JTextFieldHintUI("search something", Color.gray));
-        
-        
+        GhostText ghost = new GhostText(Oop_Searchtf, "search something....");
+              
         BufferedImage Oop_Image = ImageIO.read(new File("searchicon.png"));
         Oop_Panel.add(Oop_Searchbt = new JButton(new ImageIcon(Oop_Image.getScaledInstance(15, 15, Image.SCALE_SMOOTH)) ));
         Oop_Searchbt.addActionListener(this);

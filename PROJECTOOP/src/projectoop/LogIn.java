@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -51,8 +52,9 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
     JLabel Oop_Usernamelb;
     JLabel Oop_Passwordlb;
     JLabel Oop_Titlelb;
+    JCheckBox Oop_RemembermeCx;
     
-   
+   //giao diện chính
     public LogIn() throws FileNotFoundException, IOException
     {
         add(Oop_CreateMainPanel());
@@ -64,6 +66,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
        
     }
     
+    //main panel
     public JPanel Oop_CreateMainPanel() throws IOException
     {
         JPanel Oop_panel = new JPanel(new BorderLayout());
@@ -92,9 +95,8 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
     {
         int Oop_col = 15;
         int size = 30;
-        JPanel Oop_panel = new JPanel(new GridLayout(2, 2));
+        JPanel Oop_panel = new JPanel(new GridLayout(3, 2));
         Oop_panel.setBorder(new EmptyBorder(0, 0, 0, 45));
-       // Oop_panel.setBorder(new EmptyBorder(1, 1, 1, 1));
         
         BufferedImage Oop_Image = ImageIO.read(new File("usericon.png"));
         Oop_Usernamelb = new JLabel(new ImageIcon(Oop_Image.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
@@ -104,17 +106,16 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
         
         Oop_panel.add(Oop_Usernametf = Oop_CreateTextField(Oop_col));
         GhostText ghosttextun = new GhostText(Oop_Usernametf, "Username");
-   //     Oop_Usernametf.setPreferredSize(new Dimension(70, HEIGHT));
- //       Oop_Usernametf.setUI(new JTextFieldHintUI("Username", Color.gray));
-//        
+        
         BufferedImage Oop_Icon = ImageIO.read(new File("passwordicon.png"));     
         Oop_Passwordlb = new JLabel(new ImageIcon(Oop_Icon.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
         Oop_panel.add(Oop_cereateItemPanel(FlowLayout.CENTER, Oop_Passwordlb));
         Oop_panel.add(Oop_Passwordtf = Oop_CreatePasswordField(Oop_ActionLogIn,Oop_col));
-        //char password[] = {'p','w','s','s','w','o','r','d'};
-  //      Oop_Passwordtf.setUI(new JTextFieldHintUI("Password", Color.gray));
+       
         GhostText ghostTextpd = new GhostText(Oop_Passwordtf, "please pess Password");
- //       Oop_Passwordtf.setUI();
+        Oop_panel.add(Oop_RemembermeCx = new JCheckBox("Remember Me"),false);
+        Oop_RemembermeCx.setBorder(new EmptyBorder(0, 75, 0, 0));
+        
         
         return Oop_panel;
     }
@@ -122,6 +123,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
     public JPanel Oop_CreateButtonPanel() throws IOException
     {
         JPanel Oop_panel = new JPanel();
+        
         
         BufferedImage Oop_Image = ImageIO.read(new File("arrow.png"));
         ImageIcon icon = new ImageIcon(Oop_Image.getScaledInstance(35, 25, Image.SCALE_SMOOTH));
@@ -259,6 +261,38 @@ public class LogIn extends JFrame  implements ActionListener, Serializable {
                
                 if(Oop_CheckData(Oop_UserName,Oop_PassWord))
                {
+                   //kiểm tra ô remember me có tích ko, nếu có thì lưu dữ liệu tài khoản đăng nhập lại
+                   if(Oop_RemembermeCx.equals(true))                     
+                   {
+                       Account Oop_temp = new Account();
+                       try {
+                           FileInputStream Oop_Account = new FileInputStream("Oop_AccountData.dat");
+                           ObjectInputStream Oop_Read = new ObjectInputStream(new BufferedInputStream(Oop_Account));
+                           Oop_temp = (Account) Oop_Read.readObject();
+                           while(true)
+                           {
+                               if(Oop_temp.getOop_Username().equals("Remember me")) break;
+                               Oop_temp = (Account) Oop_Read.readObject();
+                               if(Oop_temp==null) break;
+                           }
+                           
+                           Oop_Read.close();
+                       } catch (Exception ex) {
+                       }
+                       
+                       Oop_temp.setOop_Username(Oop_UserName);
+                       Oop_temp.setOop_Password(Oop_PassWord.toString());
+                       Oop_temp.setOop_Sex("1");
+                       
+                       try {                                                    
+                           FileOutputStream Oop_AccountData = new FileOutputStream("Oop_AccountData.dat");
+                           ObjectOutputStream Oop_writeData = new ObjectOutputStream(new BufferedOutputStream(Oop_AccountData));
+                           Oop_writeData.writeObject(Oop_temp);
+                           Oop_writeData.close();
+                       } catch (Exception ey) {
+                       }
+                   }
+                   
                    JOptionPane.showMessageDialog(null, "LogIn success!", "Login", JOptionPane.INFORMATION_MESSAGE);
                 
                }

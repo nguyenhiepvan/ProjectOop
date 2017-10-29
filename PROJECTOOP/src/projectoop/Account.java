@@ -43,6 +43,14 @@ public class Account implements Serializable{
         this.Oop_Password="123";
     }
 
+    public String getOop_Sex() {
+        return Oop_Sex;
+    }
+
+    public void setOop_Sex(String Oop_Sex) {
+        this.Oop_Sex = Oop_Sex;
+    }
+
     public void setOop_Username(String Oop_Username) {
         this.Oop_Username = Oop_Username;
     }

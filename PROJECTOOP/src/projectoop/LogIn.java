@@ -49,8 +49,8 @@ import javax.swing.border.EtchedBorder;
  */
 public class LogIn extends JFrame  implements ActionListener, Serializable, ItemListener {
     
-    JTextField Oop_Usernametf;
-    JPasswordField Oop_Passwordtf;
+    static JTextField Oop_Usernametf;
+    static JPasswordField Oop_Passwordtf;
     JButton Oop_Login;
     JButton Oop_CreateNew;
     String Oop_ActionLogIn = "Login";
@@ -58,7 +58,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
     JLabel Oop_Passwordlb;
     JLabel Oop_Titlelb;
     JCheckBox Oop_RemembermeCx;
-   // static Account Oop_RememberAccount = new Account() ;
+    static Account Oop_RememberAccount = null;
     
    //giao diện chính
     public LogIn() throws FileNotFoundException, IOException
@@ -115,7 +115,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
         Oop_panel.add(Oop_Usernametf = Oop_CreateTextField(Oop_col));
         Border raisedEtched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
         Oop_Usernametf.setBorder(raisedEtched);
-        GhostText ghosttextun = new GhostText(Oop_Usernametf, "Username");
+       GhostText ghosttextun = new GhostText(Oop_Usernametf, "Username");
         
         BufferedImage Oop_Icon = ImageIO.read(new File("passwordicon.png"));     
         Oop_Passwordlb = new JLabel(new ImageIcon(Oop_Icon.getScaledInstance(size, size, Image.SCALE_SMOOTH)));
@@ -123,7 +123,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
         Oop_panel.add(Oop_Passwordtf = Oop_CreatePasswordField(Oop_ActionLogIn,Oop_col));
         Oop_Passwordtf.setBorder(raisedEtched);
        
-        GhostText ghostTextpd = new GhostText(Oop_Passwordtf, "please pess Password");
+       GhostText ghostTextpd = new GhostText(Oop_Passwordtf, "please pess Password");
         Oop_panel.add(Oop_RemembermeCx = new JCheckBox("Remember Me"),false);
         Oop_RemembermeCx.addItemListener(this);
         Oop_RemembermeCx.setBorder(new EmptyBorder(0, 75, 0, 0));
@@ -199,7 +199,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
         return Oop_layout;
     }
     
-   private static Vector Oop_Data()
+  public static Vector Oop_Data()
    {
        Vector Oop_List = new Vector();
        Account Oop_temp = null;
@@ -211,6 +211,11 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
            while(true)
            {
                Oop_List.add(Oop_temp);
+               
+               if(Oop_temp.getOop_Email().equals("Remember me"))
+               {
+                   Oop_RememberAccount = Oop_temp;
+               }
                
                Oop_temp = (Account) Oop_DataAccount.readObject();
                if(Oop_temp==null) break;
@@ -224,6 +229,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
        
        return Oop_List;
    }
+
     
   private static boolean Oop_CheckData(String inptun, char[] inputpw)
    {
@@ -258,6 +264,16 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
           
        return Oop_isCorrect;
    }
+  
+  private static void Oop_LoginRememberAccount()
+  {
+      if(Oop_RememberAccount.getOop_Sex().equals("1"))
+      {
+          Oop_Usernametf.setText(Oop_RememberAccount.getOop_Username());
+          Oop_Passwordtf.setText(Oop_RememberAccount.getOop_Password());      
+          
+      }
+  }
    
 
     @Override
@@ -267,21 +283,19 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
         if(Oop_ActionLogIn.equals(Oop_command))
         {
             String Oop_UserName = Oop_Usernametf.getText();
-            char[] Oop_PassWord = Oop_Passwordtf.getText().toCharArray();
+            char[] Oop_PassWord = Oop_Passwordtf.getPassword();
             
                
-            if(Oop_CheckData(Oop_UserName,Oop_PassWord))
-           {
-
-               JOptionPane.showMessageDialog(null, "LogIn success!", "Login", JOptionPane.INFORMATION_MESSAGE);
-
-           }
-
-           else
-           {
-               JOptionPane.showMessageDialog(null, "LogIn Faild!", "Error", JOptionPane.ERROR_MESSAGE);
-
-           }
+                if(Oop_CheckData(Oop_UserName,Oop_PassWord))
+               {
+                   JOptionPane.showMessageDialog(null, "LogIn success!", "Login", JOptionPane.INFORMATION_MESSAGE);
+               }
+               
+               else
+               {
+                   JOptionPane.showMessageDialog(null, "LogIn Faild!", "Error", JOptionPane.ERROR_MESSAGE);
+                
+               }
         }
         else
             if(Oop_command == "Create New Account")
@@ -295,35 +309,41 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        Account Oop_temp = new Account();
-        try {
-            FileInputStream Oop_Account = new FileInputStream("Oop_AccountData.dat");
-            ObjectInputStream Oop_Read = new ObjectInputStream(new BufferedInputStream(Oop_Account));
-            Oop_temp = (Account) Oop_Read.readObject();
-            while(true)
-            {
-                if(Oop_temp.getOop_Email().equals("Remember me")) break;
-                Oop_temp = (Account) Oop_Read.readObject();
-                if(Oop_temp==null) break;
-            }
+    // nếu tích vào ô remember me
+    
+    Account Oop_RememberAccount = null;
+    
+    try {
+        FileInputStream Oop_RAccount = new FileInputStream("AccountData.dat");
+        ObjectInputStream Oop_read = new ObjectInputStream(new BufferedInputStream(Oop_RAccount));
+        
+        Oop_RememberAccount = (Account)Oop_read.readObject();
+        
+        Oop_read.close();
 
-            Oop_Read.close();
-        } catch (Exception ex) {
-        }
+    } catch (Exception ex) {
+    }
+    
+    if(e.equals(true))
+    {
+        Oop_RememberAccount.setOop_Username(Oop_Usernametf.getText());
+        Oop_RememberAccount.setOop_Password(Oop_Passwordtf.getText());
+        Oop_RememberAccount.setOop_Sex("1");
+    }
+    
+    if(e.equals(false)) Oop_RememberAccount.setOop_Sex("0");
+    
+    try {
+        FileOutputStream Oop_RAccount = new FileOutputStream("AccountData.dat");
+        ObjectOutputStream Oop_Write = new ObjectOutputStream(new BufferedOutputStream(Oop_RAccount));
+        
+        Oop_Write.writeObject(Oop_RememberAccount);
+        Oop_Write.close();
 
-        Oop_temp.setOop_Username(Oop_Usernametf.getText());
-        Oop_temp.setOop_Password(Oop_Passwordtf.getText());
-        Oop_temp.setOop_Sex("1");
-
-        try {                                                    
-            FileOutputStream Oop_AccountData = new FileOutputStream("Oop_AccountData.dat");
-            ObjectOutputStream Oop_writeData = new ObjectOutputStream(new BufferedOutputStream(Oop_AccountData));
-            Oop_writeData.writeObject(Oop_temp);
-            Oop_writeData.close();
-        } catch (Exception ey) {
-        }
+    } catch (Exception ey) {
+    }
+   
     }
     }
     
-    
-
+ 

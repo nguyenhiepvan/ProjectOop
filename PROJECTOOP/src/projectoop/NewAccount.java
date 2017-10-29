@@ -265,6 +265,7 @@ public class NewAccount extends JFrame implements ActionListener, ItemListener, 
                                       
                                       JOptionPane.showMessageDialog(null, "Create Successfull!", "Congratulation", JOptionPane.INFORMATION_MESSAGE);
                                       this.dispose();
+                                      new LogIn();
                                
                                    } catch (Exception ex) {
                                        ex.getMessage();

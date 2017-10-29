@@ -41,20 +41,24 @@ public class PROJECTOOP implements Serializable {
             Account Oop_Admin = new Account();
             Oop_Admin.setOop_Password("admin");
             Oop_Admin.setOop_Username("admin");
-       
-            Account Oop_TempAccount = new Account();
-            Oop_TempAccount.setOop_Email("Remember me");
-            Oop_TempAccount.setOop_Sex("0");
             
+            Account Oop_temp = new Account();
+            Oop_temp.setOop_Email("Remember me");
+            Oop_temp.setOop_Sex("0");
+            
+            
+            
+            Oop_WriteData.writeObject(Oop_temp);
             Oop_WriteData.writeObject(Oop_Admin);
-            Oop_WriteData.writeObject(Oop_TempAccount);
             Oop_WriteData.close();
             
         } catch (IOException e) {
             System.out.println("Error write file");
-        }
+        } 
+       
+        
  //       new AdminInterface();
-         new LogIn();
+        new LogIn();
         
     }
     

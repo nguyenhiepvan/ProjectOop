@@ -51,6 +51,14 @@ public class Account implements Serializable{
         this.Oop_Sex = Oop_Sex;
     }
 
+    public String getOop_Email() {
+        return Oop_Email;
+    }
+
+    public void setOop_Email(String Oop_Email) {
+        this.Oop_Email = Oop_Email;
+    }
+
     public void setOop_Username(String Oop_Username) {
         this.Oop_Username = Oop_Username;
     }

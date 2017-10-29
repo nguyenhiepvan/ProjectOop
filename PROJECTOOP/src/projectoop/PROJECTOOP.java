@@ -32,29 +32,29 @@ public class PROJECTOOP implements Serializable {
         // TODO code application logic here
       // new NewAccount();
 
-//      FileOutputStream Oop_DataAccount = new FileOutputStream("Oop_AccountData.dat", true);
-//      
-//        try {
-//            
-//            ObjectOutputStream Oop_WriteData = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("Oop_AccountData.dat")));
-//            
-//            Account Oop_Admin = new Account();
-//            Oop_Admin.setOop_Password("admin");
-//            Oop_Admin.setOop_Username("admin");
-//       
-//            Account Oop_TempAccount = new Account();
-//            Oop_TempAccount.setOop_Username("Remember me");
-//            Oop_TempAccount.setOop_Sex("0");
-//            
-//            Oop_WriteData.writeObject(Oop_Admin);
-//            Oop_WriteData.writeObject(Oop_TempAccount);
-//            Oop_WriteData.close();
-//            
-//        } catch (IOException e) {
-//            System.out.println("Error write file");
-//        }
-         new AdminInterface();
- //        new LogIn();
+      FileOutputStream Oop_DataAccount = new FileOutputStream("Oop_AccountData.dat", true);
+      
+        try {
+            
+            ObjectOutputStream Oop_WriteData = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("Oop_AccountData.dat")));
+            
+            Account Oop_Admin = new Account();
+            Oop_Admin.setOop_Password("admin");
+            Oop_Admin.setOop_Username("admin");
+       
+            Account Oop_TempAccount = new Account();
+            Oop_TempAccount.setOop_Email("Remember me");
+            Oop_TempAccount.setOop_Sex("0");
+            
+            Oop_WriteData.writeObject(Oop_Admin);
+            Oop_WriteData.writeObject(Oop_TempAccount);
+            Oop_WriteData.close();
+            
+        } catch (IOException e) {
+            System.out.println("Error write file");
+        }
+ //       new AdminInterface();
+         new LogIn();
         
     }
     

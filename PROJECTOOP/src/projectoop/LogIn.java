@@ -64,12 +64,10 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
     public LogIn() throws FileNotFoundException, IOException
     {
         add(Oop_CreateMainPanel());
-        setTitle("Log In");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
-        this.setBackground(Color.DARK_GRAY);
-        //Oop_LoginRememberAccount();
+        Oop_LoginRememberAccount();
         setLocationRelativeTo(null);// đưa giao diện ra giữa màn hình
        
     }
@@ -139,7 +137,7 @@ public class LogIn extends JFrame  implements ActionListener, Serializable, Item
         
         BufferedImage Oop_Image = ImageIO.read(new File("arrow.png"));
         ImageIcon icon = new ImageIcon(Oop_Image.getScaledInstance(35, 25, Image.SCALE_SMOOTH));
-        Oop_panel.add(Oop_Login = Oop_CreateButton("Log In",icon));
+        Oop_panel.add(Oop_Login = Oop_CreateButton("Login Now",icon));
         Oop_Login.addActionListener(this);
         Oop_Login.setActionCommand(Oop_ActionLogIn);
         Oop_Login.setBackground(Color.green);

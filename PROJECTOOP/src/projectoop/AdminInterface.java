@@ -5,169 +5,103 @@
  */
 package projectoop;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
-import java.awt.Menu;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
  * @author emzAd
  */
-public class AdminInterface extends JFrame implements ActionListener, MouseListener {
-    JLabel Oop_Infomation;
-    JMenu Oop_Product;
-    JMenu Oop_Staff;
-    JMenu Oop_Customer;
-    JTextArea Oop_Display;
-    JButton Oop_LogOut;
-    JTextField Oop_Searchtf;
-    JButton Oop_Searchbt;
+public class AdminInterface extends JFrame implements ActionListener {
     
-    JMenuItem Oop_View,Oop_add,Oop_edit,Oop_delete,Oop_salary;
+    JLabel Oop_Dashboard;
+    JLabel Oop_Create;
+    JLabel Oop_Search;
+    JButton Oop_Logout;
+    JLabel Oop_Avatar;
+    JLabel Oop_Title;
     
-    public AdminInterface() throws IOException
+    public AdminInterface()
     {
-        setTitle("Management");
-        add(Oop_MainInterface());
-        setSize(500, 700);
-        setVisible(true);
-        setLocationRelativeTo(null);
+        this.add(Oop_MainPanel());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
     
-    public JPanel Oop_MainInterface() throws IOException
+    public JPanel Oop_MainPanel()
     {
         JPanel Oop_Panel = new JPanel(new BorderLayout());
-        
-        Oop_Panel.setBorder(new EmptyBorder(5, 10, 5, 10));
-        Oop_Panel.add(Oop_Search(),BorderLayout.NORTH);
-        Oop_Panel.add(Oop_MainMenu(),BorderLayout.WEST);
-        Oop_Panel.add(Oop_display(),BorderLayout.CENTER);
-        Oop_Panel.add(Oop_Logout(),BorderLayout.SOUTH);
-        
+        Oop_Panel.add(Oop_CreateMenu(),BorderLayout.WEST);
+        Oop_Panel.add(Oop_CreateDisplay(),BorderLayout.CENTER);
         return Oop_Panel;
     }
     
-    public JPanel Oop_Search() throws IOException
+    public JPanel Oop_CreateMenu() throws IOException
     {
-        JPanel Oop_Panel = new JPanel(new FlowLayout());
+        JPanel Oop_Panel = new JPanel(new GridLayout(5, 1));
+        Oop_Panel.add(Oop_Title = Oop_CreateLabel("MANAGER"));
+        Oop_Title.setBackground(Color.BLUE);
         
-        Oop_Panel.add(Oop_Searchtf = new JTextField(22));
-        GhostText ghost = new GhostText(Oop_Searchtf, "search something....");
-              
-        BufferedImage Oop_Image = ImageIO.read(new File("searchicon.png"));
-        Oop_Panel.add(Oop_Searchbt = new JButton(new ImageIcon(Oop_Image.getScaledInstance(15, 15, Image.SCALE_SMOOTH)) ));
-        Oop_Searchbt.addActionListener(this);
+        BufferedImage Oop_Image = ImageIO.read(new File("avatar.png"));
+        Oop_Avatar = new JLabel(new ImageIcon(Oop_Image.getScaledInstance(20, 30, Image.SCALE_SMOOTH)));       
+        Oop_Panel.add(Oop_Avatar);
+        Oop_Avatar.setBackground(Color.BLACK);
+        
+        BufferedImage Oop_dashboardicon = ImageIO.read(new File("dashboard.png"));
+        Oop_Panel.add(Oop_Dashboard = Oop_CreateLabel(Oop_dashboardicon,"Dashboard"));
+        Oop_Dashboard.setBackground(Color.BLACK);
+        
+        BufferedImage Oop_CreateIcon = ImageIO.read(new File("create.png"));
+        Oop_Panel.add(Oop_Create = Oop_CreateLabel(Oop_CreateIcon,"Create"));
+        Oop_Create.setBackground(Color.BLACK);
+        
+        BufferedImage Oop_SearchIcon = ImageIO.read(new File("search.png"));
+        Oop_Panel.add(Oop_Search = Oop_CreateLabel(Oop_SearchIcon,"Search"));
+        Oop_Search.setBackground(Color.BLACK);
         
         return Oop_Panel;
+                
     }
     
-    public JPanel Oop_MainMenu()
+    public JPanel Oop_CreateDisplay()
     {
-        JPanel Oop_JPanel = new JPanel(new GridLayout(4, 1));
+        JPanel Oop_JPanel = new JPanel(new BorderLayout());
         
-        Oop_JPanel.setBorder( new EmptyBorder(5, 5, 5, 5));
+        Oop_JPanel.add(Oop_CreateLabel("Welcome admin"),BorderLayout.NORTH);
+        Oop_JPanel.add(Oop_Logout = Oop_CreateButton("Logout"),BorderLayout.NORTH);
+        Oop_Logout.addActionListener(this);
+        Oop_Logout.setBackground(Color.red);
         
-        Oop_JPanel.add(Oop_Infomation = new JLabel("Information"));
-        Oop_Infomation.addMouseListener(this);
-        
-        Oop_JPanel.add(Oop_Product = Oop_CreateMenu("Product"));
-        Oop_Product.addMouseListener(this);
-        
-        Oop_JPanel.add(Oop_Staff = Oop_CreateMenu("Staff"));
-        Oop_Staff.addMouseListener(this);
-        
-        Oop_JPanel.add(Oop_Customer = Oop_CreateMenu("Customer"));
-        Oop_Customer.addMouseListener(this);
-        
+        Oop_JPanel.add(Oop_Display());
         return Oop_JPanel;
-        
     }
     
-    public JPanel Oop_display()
+    public JLabel Oop_CreateLabel(String title)
     {
-        JPanel Oop_Panel = new JPanel(new BorderLayout());
-        Oop_Panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        Oop_Panel.add(Oop_Display = new JTextArea(),BorderLayout.CENTER);
-        Oop_Display.setEditable(false);       
-        return Oop_Panel;
-        
+        JLabel Oop_Label = new JLabel(title);
+        return Oop_Label;
     }
     
-    public JPanel Oop_Logout()
+    public JLabel Oop_CreateLabe(ImageIO icon,String title)
     {
-        JPanel Oop_Panel = new JPanel(new FlowLayout());
-        Oop_Panel.add(Oop_LogOut = Oop_CreateButton("Log out"));
-        Oop_LogOut.addActionListener(this);
-        return Oop_Panel;
+        JLabel Oop_Label = new JLabel(title, icon, LEFT_ALIGNMENT);
+        return Oop_Label;
     }
     
-    public JMenu Oop_CreateMenu(String title)
-    {
-        JMenu Oop_Menu = new JMenu(title);
-        
-        Oop_View = new JMenuItem("View");
-        Oop_View.addActionListener(this);
-        Oop_Menu.add(Oop_View);
-        
-        Oop_add = new JMenuItem("Add");
-        Oop_add.addActionListener(this);
-        Oop_Menu.add(Oop_add);
-        
-        return Oop_Menu;
-    }
-    
-    public JButton Oop_CreateButton(String title)
-    {
-        JButton Oop_Button = new JButton(title);
-        return Oop_Button;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public
 }
